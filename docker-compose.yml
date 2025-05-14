@@ -3,6 +3,7 @@ version: '3.8'
 services:
   app:
     build:
+      command: uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
       context: .
       target: base  # Cambiar a 'dev' para desarrollo
     restart: unless-stopped
@@ -11,8 +12,7 @@ services:
       # Para desarrollo puedes añadir:
       # - ~/.cache/pypoetry:/root/.cache/pypoetry
     ports:
-      - "8000:8000"  # Puerto común para web frameworks
-      - "5000:5000"  # Alternativo para Flask/etc
+      - "8000:8000"
     env_file:
       - .env
     environment:

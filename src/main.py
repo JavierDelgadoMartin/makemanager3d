@@ -1,6 +1,21 @@
-def main():
-    print("Python project base - Ready to build!")
-    print("Override this in your project")
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-if __name__ == "__main__":
-    main()
+app = FastAPI(title="My FastAPI Project")
+
+# Configuración básica de CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.get("/")
+async def root():
+    return {"message": "Hello from FastAPI!"}
+
+@app.get("/health")
+async def health_check():
+    return {"status": "OK"}
