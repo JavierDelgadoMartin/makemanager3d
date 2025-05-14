@@ -1,0 +1,32 @@
+Cómo usar esta plantilla para diferentes frameworks
+Para Django:
+Añade dependencias:
+
+bash
+poetry add django psycopg2-binary
+Crea proyecto:
+
+bash
+docker-compose run --rm app django-admin startproject core .
+Ajusta docker-compose.yml:
+
+yaml
+command: python manage.py runserver 0.0.0.0:8000
+Para FastAPI:
+Añade dependencias:
+
+bash
+poetry add fastapi uvicorn sqlalchemy asyncpg
+Ajusta docker-compose.yml:
+
+yaml
+command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+Para Flask:
+Añade dependencias:
+
+bash
+poetry add flask flask-sqlalchemy
+Ajusta docker-compose.yml:
+
+yaml
+command: python -m flask run --host=0.0.0.0 --port=5000

@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      target: base  # Cambiar a 'dev' para desarrollo
+    restart: unless-stopped
+    volumes:
+      - .:/app
+      # Para desarrollo puedes añadir:
+      # - ~/.cache/pypoetry:/root/.cache/pypoetry
+    ports:
+      - "8000:8000"  # Puerto común para web frameworks
+      - "5000:5000"  # Alternativo para Flask/etc
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/app/src
+    # El command se sobrescribe según el proyecto
+    # command: python src/main.py
+
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-appdb}
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:
